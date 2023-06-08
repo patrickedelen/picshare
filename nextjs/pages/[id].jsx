@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState, useRef } from 'react'
 import Webcam from 'react-webcam'
+import { Image } from 'next/image'
 
 const videoConstraints = {
     width: 1280,
@@ -22,6 +23,8 @@ export default function MobileRoute() {
     const [ws, setWs] = useState(null)
     const [qrData, setQrData] = useState(null)
 
+    const [imageSrc, setImageSrc] = useState(null)
+
     const [connectionSuccess, setConnectionSuccess] = useState(false)
     const [test, setTest] = useState('')
 
@@ -30,7 +33,7 @@ export default function MobileRoute() {
             console.log('waiting for router query')
         }
         setTest('opening socket...')
-        const websocket = new WebSocket('wss://ffe79e835abf.ngrok.app')
+        const websocket = new WebSocket('wss://20ad79a69edf.ngrok.app')
 
         websocket.onerror = (error) => {
             setTest(`error: ${JSON.stringify(error)}`)
@@ -47,7 +50,7 @@ export default function MobileRoute() {
         }
 
         websocket.onmessage = (event) => {
-            console.log('got message', event.data)
+            console.log('got message of type', event.type)
             const data = JSON.parse(event.data)
 
             if (data.type === 'openSuccess') {
@@ -87,6 +90,7 @@ export default function MobileRoute() {
                 ref={webcamRef}
             />
             <button onClick={capture}>Capture photo</button>
+            
         </div>
     );
 }

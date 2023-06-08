@@ -14,14 +14,12 @@ const getNewId = () => {
 
 
 }
-const openWsConnections = []
+const openWsConnections = {}
 
 const initClient = (ws) => {
     const newId = uuidv4();
     openIds.push(newId);
-    openWsConnections.push({
-        [newId]: ws
-    })
+    openWsConnections[newId] = ws
 
     return newId;
 }
@@ -60,9 +58,12 @@ wss.on('connection', (ws) => {
         }
         if (data.type === 'imageSend') {
             console.log('got image send on server')
-            console.log('info on connections:', openWsConnections, )
             console.log('ws id of desktop', desktopId)
-            console.log('ws of desktop', openWsConnections[desktopId])
+            const desktopWs = openWsConnections[desktopId]
+            desktopWs.send(JSON.stringify({
+                'type': 'imageReceive',
+                'image': data.data,
+            }))
         }
     });
 

@@ -1,4 +1,4 @@
-import { Image } from 'next/image'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import QRCode from "react-qr-code";
 
@@ -11,10 +11,17 @@ import styles from '../app/main.module.css'
 
 // send 
 
+// on websocket message with sent picture, save as file locally
+// allow downloading file with a button
+// show picture on desktop page
+
 export default function Index() {
 
     const [ws, setWs] = useState(null)
     const [qrData, setQrData] = useState(null)
+    const [file, setFile] = useState(null)
+
+    const [imageSrc, setImageSrc] = useState('')
 
     useEffect(() => {
         const websocket = new WebSocket('ws://localhost:8081')
@@ -28,7 +35,11 @@ export default function Index() {
             const data = JSON.parse(event.data)
 
             if (data.type === 'openSuccess') {
-                setQrData(`https://b16ac9952843.ngrok.app/${data.id}`)
+                setQrData(`https://888a45a6a1de.ngrok.app/${data.id}`)
+            }
+            if (data.type === 'imageReceive') {
+                // console.log('got image', data.image)
+                setImageSrc(data.image)
             }
         }
 
@@ -54,7 +65,9 @@ export default function Index() {
                 viewBox={`0 0 256 256`}
                 />
             )}
+            <p>link to qr code: {qrData}</p>
             <button onClick={() => sendMessage('hello')}>test send</button>
+            {imageSrc && <Image height="400" width="400" src={imageSrc} /> }
         </div>
     )
 }
