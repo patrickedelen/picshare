@@ -3,11 +3,15 @@ import React, { useEffect, useState, useRef } from 'react'
 import Webcam from 'react-webcam'
 import { Image } from 'next/image'
 
+import { Loading } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+import styles from '../app/upload.module.css'
+
 const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: "user"
-  };
+    facingMode: "environment"
+}
 
 export default function MobileRoute() {
     const router = useRouter();
@@ -40,8 +44,10 @@ export default function MobileRoute() {
         }
         websocket.onopen = () => {
             console.log('connected to websocket')
-            setConnectionSuccess(true)
             setTest('connected to websocket')
+            setTimeout(() => {
+                setConnectionSuccess(true)
+            }, 1000)
             
             websocket.send(JSON.stringify({
                 type: 'phoneIdentify',
@@ -74,22 +80,48 @@ export default function MobileRoute() {
       );
 
     return (
-        <div>
-            <h1>hello world</h1>
-            {connectionSuccess && (
-                <h1>got connection</h1>
-            )}
-            <h2>test: {test}</h2>
+        <div className={styles.container}>
+            <div className={styles.titleContainer}>
+
+            <AnimatePresence>
+                {!connectionSuccess ? (
+                    <motion.div 
+                        key="a"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                        className={styles.connectionWaiting}
+                    >
+                        <h3>Waiting for connection</h3>
+                        <Loading type="points" />
+                        
+                    </motion.div>
+                ) : (
+                    <motion.div 
+                        key="b"
+                        initial={{ opacity: 0, transition: { delay: 0.2 } }}
+                        animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                        exit={{ opacity: 0 }}
+                        className={styles.connectionWaiting}
+                    >
+                        <h3>Connected to desktop</h3>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+            </div>
 
             <Webcam
-                audio={false}
-                height={720}
-                screenshotFormat="image/jpeg"
-                width={1280}
-                videoConstraints={videoConstraints}
+                width={350}
+                height={263}
+                className={styles.uploadWebcam}
                 ref={webcamRef}
+                audio={false}
+                screenshotFormat="image/jpeg"
+                videoConstraints={videoConstraints}
+                forceScreenshotSourceSize={true}
+                screenshotQuality={1}
             />
-            <button onClick={capture}>Capture photo</button>
+            <Button color="black" bordered shadow onClick={capture}>Take Photo</Button>
             
         </div>
     );

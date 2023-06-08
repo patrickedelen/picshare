@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@next/font": "^13.4.4",
+    "@nextui-org/react": "^1.0.0-beta.13",
     "uuid": "^9.0.0"
   }
 }

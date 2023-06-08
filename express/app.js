@@ -55,15 +55,28 @@ wss.on('connection', (ws) => {
         if (data.type === 'phoneIdentify') {
             desktopId = data.desktopId;
             console.log('identified desktop', data)
+
+            const desktopWs = openWsConnections[desktopId]
+            if (desktopWs) {
+                desktopWs.send(JSON.stringify({
+                    type: 'phoneConnected'
+                }))
+            } else {
+                console.log('desktop not connected')
+            }
         }
         if (data.type === 'imageSend') {
             console.log('got image send on server')
             console.log('ws id of desktop', desktopId)
             const desktopWs = openWsConnections[desktopId]
-            desktopWs.send(JSON.stringify({
-                'type': 'imageReceive',
-                'image': data.data,
-            }))
+            if (desktopWs) {
+                desktopWs.send(JSON.stringify({
+                    'type': 'imageReceive',
+                    'image': data.data,
+                }))
+            } else {
+                console.log('desktop not connected')
+            }
         }
     });
 
