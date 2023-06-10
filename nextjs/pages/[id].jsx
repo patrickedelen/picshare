@@ -276,7 +276,7 @@ export default function MobileRoute() {
                             initial={{ opacity: 0, transition: { delay: 0.2 } }}
                             animate={{ opacity: 1, transition: { delay: 0.2 } }}
                             exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                            className={styles.videoElement}
+                            className={styles.cropElement}
                         >
                             <ReactCrop
                             crop={crop}
