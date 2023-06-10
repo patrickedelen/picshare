@@ -1,18 +1,17 @@
 .container {
     width: 95vw;
-    margin: 30px auto 30px;
+    margin: 10px auto 10px;
     max-width: 500px;
-    padding: 40px;
+    padding: 10px;
+    height: calc(100svh - 100px);
     /* padding-bottom: 40px; */
     border-radius: 5px;
     background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 0px 24px 0 rgba(0, 0, 0, 0.12);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     text-align: center;
-    gap: 20px;
 }
 
 .titleContainer {
@@ -36,9 +35,61 @@
     --nextui--loadingColor: black;
 }
 
+.videoContainer {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin-bottom: 15px;
+}
+.videoElement {
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 0px 24px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+}
+.videoElement > button {
+    margin-top: 30px;
+}
 .uploadImage {
 
 }
 .uploadWebcam {
     border-radius: 5px;
+}
+
+.buttonContainer {
+    position: relative;
+    width: 300px;
+    height: 60px;
+}
+
+.singleButton {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.multiButton {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+.multiButton > button {
+    width: calc(50% - 5px);
 }
