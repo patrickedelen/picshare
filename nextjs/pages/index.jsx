@@ -30,6 +30,7 @@ export default function Index() {
     const [phoneConnected, setPhoneConnected] = useState(false)
     const [buttonClicked, setButtonClicked] = useState(false)
     const [showCompleteView, setShowCompleteView] = useState(false)
+    const [downloadLinkClicked, setDownloadLinkClicked] = useState(false)
 
     const [file, setFile] = useState(null)
 
@@ -73,11 +74,22 @@ export default function Index() {
         setShowCompleteView(true)
     }
 
+    const downloadImage = () => {
+        const link = document.createElement('a');
+        link.href = imageSrc;
+        link.download = 'mobile_upload.png'; // Provide the name of the file here
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setDownloadLinkClicked(true)
+    }
+
     return (
         <div className={styles.container}>
             {
                 buttonClicked && (
                     <Confetti
+                        height={1200}
                     />
                 )
             }
@@ -110,78 +122,80 @@ export default function Index() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0, transition: { duration: 0.2 } }}
                         >
-                        <div className={styles.infoText}>
-                            <h3>Demo signup form you usually hate</h3>
-                        </div>
+                            <div className={styles.infoText}>
+                                <h3>Demo signup form you usually hate</h3>
+                            </div>
 
-                        <div className={styles.inputContainer}>
-                            <Input label="First Name" clearable bordered labelPlaceholder="Name" initialValue="Jim" />
-                            <Input label="Last Name" clearable bordered labelPlaceholder="Name" initialValue="Bob" />
-                        </div>
+                            <div className={styles.inputContainer}>
+                                <Input label="First Name" clearable bordered labelPlaceholder="Name" initialValue="Jim" />
+                                <Input label="Last Name" clearable bordered labelPlaceholder="Name" initialValue="Bob" />
+                            </div>
 
-                        <div className={styles.fileUploadContainer}>
-                            <p>Scan the QR code to upload your identification</p>
-                            <p class={styles.tiny}>Please don't actually upload your ID...</p>
-                            <p className={styles.linkInfo}>link to qr code: <a href={qrData}>{qrData}</a></p>
-                        </div>
-                        <div className={styles.uploadPresenceContainer}>
-                    
-                        <AnimatePresence>
-                            {loadingConnection && (
-                                <motion.div
-                                    key="loading"
-                                    className={styles.loadingContainer}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0, transition: { duration: 0.5 } }}
-                                >
-                                    <Loading type="points" size="lg" />
-                                </motion.div>
-                            )}
-                            {(phoneConnected && !imageSrc) && (
-                                <motion.div
-                                    key="phoneConnected"
-                                    className={styles.mobileConnected}
-                                    initial={{ opacity: 0, transition: { delay: 0.5 } }}
-                                    animate={{ opacity: 1, transition: { delay: 0.5 } }}
-                                    exit={{ opacity: 0 }}
-                                >
-                                    <FontAwesomeIcon icon={faMobileScreen} size="10x" color="black" />
-                                    <p>Your phone is connected, waiting for an image.</p>
-                                </motion.div>
-                            )}
-                            {(!loadingConnection && qrData && !imageSrc && !phoneConnected) && (
-                                <motion.div
-                                key="qrCode"
-                                initial={{ opacity: 0, transition: { delay: 0.5 } }}
-                                animate={{ opacity: 1, transition: { delay: 0.5 } }}
-                                exit={{ opacity: 0 }}
-                                >
-                                    <QRCode
-                                        size={256}
-                                        style={{ height: "auto", maxWidth: "250px", width: "100%" }}
-                                        value={qrData}
-                                        viewBox={`0 0 256 256`}
-                                    />
-                                    
-                                </motion.div>
-                            )}
-                            {imageSrc && (
-                                <motion.div
-                                    key="image"
-                                    initial={{ opacity: 0, transition: { delay: 0.5 } }}
-                                    animate={{ opacity: 1, transition: { delay: 0.5 } }}
-                                    exit={{ opacity: 0 }}
-                                    className={styles.imageContainer}
-                                >
-                                    <Image height="250" width="300" src={imageSrc} alt="Your uploaded image" /> 
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                        </div>
+                            <div className={styles.fileUploadContainer}>
+                                <p>Scan the QR code to upload your identification</p>
+                                <p class={styles.tiny}>Please don't actually upload your ID...</p>
+                                <p className={styles.linkInfo}>link to qr code: <a href={qrData}>{qrData}</a></p>
+                            </div>
+                            <div className={styles.uploadPresenceContainer}>
+                                <AnimatePresence>
+                                    {loadingConnection && (
+                                        <motion.div
+                                            key="loading"
+                                            className={styles.loadingContainer}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                                        >
+                                            <Loading type="points" size="lg" />
+                                        </motion.div>
+                                    )}
+                                    {(phoneConnected && !imageSrc) && (
+                                        <motion.div
+                                            key="phoneConnected"
+                                            className={styles.mobileConnected}
+                                            initial={{ opacity: 0, transition: { delay: 0.5 } }}
+                                            animate={{ opacity: 1, transition: { delay: 0.5 } }}
+                                            exit={{ opacity: 0 }}
+                                        >
+                                            <FontAwesomeIcon icon={faMobileScreen} size="10x" color="black" />
+                                            <p>Your phone is connected, waiting for an image.</p>
+                                        </motion.div>
+                                    )}
+                                    {(!loadingConnection && qrData && !imageSrc && !phoneConnected) && (
+                                        <motion.div
+                                        key="qrCode"
+                                        initial={{ opacity: 0, transition: { delay: 0.5 } }}
+                                        animate={{ opacity: 1, transition: { delay: 0.5 } }}
+                                        exit={{ opacity: 0 }}
+                                        className={styles.qrCodeGenerated}
+                                        >
+                                            <QRCode
+                                                size={256}
+                                                style={{ height: "auto", maxWidth: "268px", width: "100%" }}
+                                                value={qrData}
+                                                viewBox={`0 0 268 268`}
+                                            />
+                                            
+                                        </motion.div>
+                                    )}
+                                    {imageSrc && (
+                                        <motion.div
+                                            key="image"
+                                            initial={{ opacity: 0, transition: { delay: 0.5 } }}
+                                            animate={{ opacity: 1, transition: { delay: 0.5 } }}
+                                            exit={{ opacity: 0 }}
+                                            className={styles.imageContainer}
+                                        >
+                                            <Image height="281" width="500" src={imageSrc} alt="Your uploaded image" /> 
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                            <div className={styles.buttonContainer}>
+                                <Button auto color="black" bordered shadow disabled={!imageSrc} onClick={onButtonClick}>Do something fun...</Button>
+                                <Button auto color={downloadLinkClicked ? 'gradient' : 'black' } bordered shadow disabled={!imageSrc} onClick={downloadImage}>Download Image</Button>
 
-                        <Button color="black" bordered shadow disabled={!imageSrc} onClick={onButtonClick}>Do something fun...</Button>
-                        
+                            </div>
                         </motion.div>
                     )}
             </AnimatePresence>

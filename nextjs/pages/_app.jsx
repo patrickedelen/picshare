@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { NextUIProvider } from '@nextui-org/react';
 
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import '../app/globals.css'
 
 import { Outfit } from 'next/font/google'
@@ -18,6 +19,7 @@ function App({ Component, pageProps, ...rest}) {
                 <NextUIProvider>
                     <Header />
                     <Component {...pageProps} />
+                    <Footer />
                 </NextUIProvider>
             </main>
         </>
