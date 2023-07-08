@@ -12,7 +12,7 @@ import ReactCrop, {
 import 'react-image-crop/dist/ReactCrop.css'
 
 import { Loading } from '@nextui-org/react'
-import { Button } from '@nextui-org/react'
+import { Button, Modal } from '@nextui-org/react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import styles from '../app/upload.module.css'
@@ -129,7 +129,7 @@ export default function MobileRoute() {
         if (!id) {
             console.log('waiting for router query')
         }
-        const websocket = new WebSocket('wss://20ad79a69edf.ngrok.app')
+        const websocket = new WebSocket('wss://d166ca0fea28.ngrok.app')
 
         websocket.onerror = (error) => {
             console.error(error)
@@ -201,6 +201,7 @@ export default function MobileRoute() {
     }
 
     const sendImage = async () => {
+        console.log('sending image')
         const data = await cropImage(imageSrc, crop)
         ws.send(JSON.stringify({ type: 'imageSend', data: data }))
         setImageSent(true)
@@ -208,6 +209,12 @@ export default function MobileRoute() {
 
     return (
         <div className={styles.container}>
+            <Modal open={imageSent} onClose={() => setImageSent(false)} width="75%" blur={true}>
+                <Modal.Body css={{alignItems: 'center', margin: '10px'}}>
+                <h3>Image Sent!</h3>
+                <h4>Check your computer</h4>
+                </Modal.Body>
+            </Modal>
             <div className={styles.titleContainer}>
                 <AnimatePresence>
                     {!connectionSuccess ? (
@@ -309,7 +316,7 @@ export default function MobileRoute() {
                             exit={{ opacity: 0, transition: { duration: 0.2 } }}
                             className={styles.singleButton}
                         >
-                            <Button color="black" bordered shadow onClick={capture}>Take Photo</Button>
+                            <Button color="black" bordered shadow onPress={capture}>Take Photo</Button>
                         </motion.div>
                         )
                     }
@@ -322,8 +329,8 @@ export default function MobileRoute() {
                         exit={{ opacity: 0, transition: { duration: 0.2 } }}
                         className={styles.multiButton}
                         >
-                            <Button color="black" bordered shadow onClick={retake} auto>Retake</Button>
-                            <Button color={imageSent ? 'gradient' : 'black'} bordered shadow auto onClick={sendImage}>{imageSent ? 'Sent!' : 'Send'}</Button>
+                            <Button color="black" bordered shadow onPress={retake} auto>Retake</Button>
+                            <Button color={imageSent ? 'gradient' : 'black'} bordered shadow auto onPress={sendImage}>{imageSent ? 'Sent!' : 'Send'}</Button>
                         </motion.div>
                     )
                 }

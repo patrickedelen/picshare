@@ -37,7 +37,7 @@ export default function Index() {
     const [imageSrc, setImageSrc] = useState('')
 
     useEffect(() => {
-        const websocket = new WebSocket('wss://20ad79a69edf.ngrok.app')
+        const websocket = new WebSocket('wss://d166ca0fea28.ngrok.app')
 
         websocket.onopen = () => {
             console.log('connected to websocket')
@@ -51,7 +51,7 @@ export default function Index() {
             const data = JSON.parse(event.data)
 
             if (data.type === 'openSuccess') {
-                setQrData(`https://888a45a6a1de.ngrok.app/${data.id}`)
+                setQrData(`https://b5b1d658f372.ngrok.app/${data.id}`)
             }
             if (data.type === 'imageReceive') {
                 // console.log('got image', data.image)
@@ -133,7 +133,7 @@ export default function Index() {
 
                             <div className={styles.fileUploadContainer}>
                                 <p>Scan the QR code to upload your identification</p>
-                                <p class={styles.tiny}>Please don't actually upload your ID...</p>
+                                <p className={styles.tiny}>Please don't actually upload your ID...</p>
                                 <p className={styles.linkInfo}>link to qr code: <a href={qrData}>{qrData}</a></p>
                             </div>
                             <div className={styles.uploadPresenceContainer}>
