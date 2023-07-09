@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const defaultExpressPort = 8080;
-const defaultWebSocketPort = 8081;
+const defaultWebSocketPort = 8080;
 
 const wss = new WebSocket.Server({ port: defaultWebSocketPort });
 

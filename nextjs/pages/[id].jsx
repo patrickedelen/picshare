@@ -129,7 +129,7 @@ export default function MobileRoute() {
         if (!id) {
             console.log('waiting for router query')
         }
-        const websocket = new WebSocket('wss://d166ca0fea28.ngrok.app')
+        const websocket = new WebSocket('wss://api-aws.xnmz.co:8080')
 
         websocket.onerror = (error) => {
             console.error(error)
@@ -151,7 +151,7 @@ export default function MobileRoute() {
             const data = JSON.parse(event.data)
 
             if (data.type === 'openSuccess') {
-                setQrData(`https://b16ac9952843.ngrok.app/${data.id}`)
+                setQrData(`https://picshare-seven.vercel.app/${data.id}`)
             }
         }
 
