@@ -88,6 +88,11 @@ app.get('/test', (req, res) => {
     res.send({ 'message': 'test test' });
 })
 
+app.get('/healthcheck', (req, res) => {
+    console.log(`got healtheck request, current open ids: ${openIds}`)
+    res.send({'status': 'OK' });
+})
+
 app.listen(defaultExpressPort, () => {
     console.log('Server listening on port', defaultExpressPort);
 })
