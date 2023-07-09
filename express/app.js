@@ -84,7 +84,8 @@ wss.on('connection', (ws) => {
 })
 
 app.get('/test', (req, res) => {
-    res.send({ 'message': 'Healthcheck Pass' });
+    console.log('got healtheck request')
+    res.send({ 'message': 'test test' });
 })
 
 app.listen(defaultExpressPort, () => {

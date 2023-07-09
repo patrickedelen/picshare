@@ -33,7 +33,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: picshare-api
-  ECS_SERVICE: api-picshare
+  ECS_SERVICE: picshare-service-2
   ECS_CLUSTER: prod-1
   ECS_TASK_DEFINITION: .aws/task-definition.json
   CONTAINER_NAME: node
