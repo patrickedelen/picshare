@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState, useRef } from 'react'
 import Webcam from 'react-webcam'
-// import { Image as NextImage } from 'next/image'
 
 import ReactCrop, {
     centerCrop,
     makeAspectCrop,
-    Crop,
-    PixelCrop,
 } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 
@@ -149,10 +146,6 @@ export default function MobileRoute() {
         websocket.onmessage = (event) => {
             console.log('got message of type', event.type)
             const data = JSON.parse(event.data)
-
-            if (data.type === 'openSuccess') {
-                setQrData(`https://picshare-seven.vercel.app/${data.id}`)
-            }
         }
 
         setWs(websocket)
@@ -171,28 +164,6 @@ export default function MobileRoute() {
         },
         [webcamRef, ws]
     );
-
-    // useDebounceEffect(
-    //     async () => {
-    //     if (
-    //         completedCrop?.width &&
-    //         completedCrop?.height &&
-    //         imgRef.current &&
-    //         previewCanvasRef.current
-    //     ) {
-    //     // We use canvasPreview as it's much faster than imgPreview.
-    //     canvasPreview(
-    //         imgRef.current,
-    //         previewCanvasRef.current,
-    //         completedCrop,
-    //         scale,
-    //         rotate,
-    //     )
-    //     }
-    //     },
-    //     100,
-    //     [completedCrop],
-    // )
 
     const retake = () => {
         setImageSrc(null)

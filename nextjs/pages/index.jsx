@@ -5,7 +5,7 @@ import QRCode from "react-qr-code";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMobileScreen } from '@fortawesome/free-solid-svg-icons';
 
-import { Loading, Button, Input, Spacer } from '@nextui-org/react'
+import { Loading, Button, Input } from '@nextui-org/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Confetti from 'react-confetti'
 
@@ -15,8 +15,6 @@ import styles from '../app/main.module.css'
 // need array of ids, generate on connection to websocket
 // send id to client on websocket connection
 // client on mobile site will initialize connection with id from page params
-
-// send 
 
 // on websocket message with sent picture, save as file locally
 // allow downloading file with a button
@@ -31,8 +29,6 @@ export default function Index() {
     const [buttonClicked, setButtonClicked] = useState(false)
     const [showCompleteView, setShowCompleteView] = useState(false)
     const [downloadLinkClicked, setDownloadLinkClicked] = useState(false)
-
-    const [file, setFile] = useState(null)
 
     const [imageSrc, setImageSrc] = useState('')
 
@@ -51,7 +47,7 @@ export default function Index() {
             const data = JSON.parse(event.data)
 
             if (data.type === 'openSuccess') {
-                setQrData(`https://picshare-seven.vercel.app/${data.id}`)
+                setQrData(`https://picshare-pedelen.vercel.app/${data.id}`)
             }
             if (data.type === 'imageReceive') {
                 // console.log('got image', data.image)
@@ -77,7 +73,7 @@ export default function Index() {
     const downloadImage = () => {
         const link = document.createElement('a');
         link.href = imageSrc;
-        link.download = 'mobile_upload.png'; // Provide the name of the file here
+        link.download = 'mobile_upload.png';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
