@@ -36,6 +36,8 @@ const removeClient = (id) => {
 wss.on('connection', (ws) => {
     console.log('Client connected');
     const clientId = initClient(ws);
+
+    console.log('got new id:', clientId);
     let desktopId = null
     console.log('New id:'+ clientId);
     ws.send(JSON.stringify({
